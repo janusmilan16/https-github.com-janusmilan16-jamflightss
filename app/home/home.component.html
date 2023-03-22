@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="img-container">
+    <img
+      src="https://images.pexels.com/photos/1493756/pexels-photo-1493756.jpeg"
+      alt=""
+    />
+    <section>
+      <h1>Flights filled with<br />the delight of JAM.</h1>
+      <h3>Fly hassle-free with our booking app - your wings to the world!</h3>
+    </section>
+  </div>
+
+  <div class="flights-container">
+    <h2>Famous Destinations with Cheap Flights</h2>
+
+    <div *ngFor="let flight of cheapflights" class="flight-details">
+      <h3>
+        <a
+          [title]="flight.name + ' details'"
+          [routerLink]="['/flight', flight.id]"
+        >
+          {{ flight.name }}
+        </a>
+      </h3>
+      <p *ngIf="flight.price">Cheapest Price: ₱ {{ flight.price }}</p>
+      <p *ngIf="flight.description">{{ flight.description }}</p>
+      <img src="{{ flight.image }}" />
+
+      <div class="cta">
+        <button type="button" class="cta-btn" (click)="share()">Share</button>
+        <button type="button" class="cta-btn" (click)="onNotify()">
+          Notify Me
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at https://angular.io/license
+-->

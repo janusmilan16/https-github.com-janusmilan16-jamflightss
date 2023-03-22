@@ -1,0 +1,89 @@
+/* landing page */
+.img-container {
+  object-fit: cover;
+  background: #467383;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 49%);
+  height: 60vh;
+}
+
+.img-container img {
+  object-fit: cover;
+  opacity: 0.4;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  height: 60vh;
+}
+
+section {
+  position: absolute;
+  top: 25%;
+  left: 15%;
+  font-weight: bold;
+  text-align: left;
+}
+
+.img-container section h1 {
+  font-weight: 600;
+  font-size: 40px;
+  color: #f8f0dd;
+}
+
+.img-container section h3 {
+  font-weight: 300;
+  font-size: 20px;
+  color: #f8f0dd;
+}
+
+.flights-container {
+  text-align: center;
+}
+
+.flights-container h2 {
+  font-size: 30px;
+}
+
+.flight-details {
+  background-color: #e2d8c4;
+  border-radius: 20px;
+  width: 70%;
+  margin: 0 auto;
+  padding: 30px 30px;
+  margin-bottom: 15px;
+}
+
+img {
+  width: 100%;
+  margin-bottom: 15px;
+}
+/* Button */
+.cta {
+  display: inline-block;
+}
+
+button {
+  margin-left: 15px;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 2px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #467383;
+  color: #f8f0dd;
+  border: none;
+}
+
+.cta-btn:hover {
+  opacity: 0.8;
+  font-weight: normal;
+}
+
+.cta-btn:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}

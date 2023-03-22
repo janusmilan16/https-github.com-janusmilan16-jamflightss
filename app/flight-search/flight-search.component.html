@@ -1,0 +1,219 @@
+<div class="container">
+  <h2>
+    Find your wings with ease - Search and book your perfect flight today!
+  </h2>
+
+  <p>*Please, input May 1, 2023 as your Departure Date*</p>
+  <div class="search-panel col-1">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a
+          data-toggle="tab"
+          href="#search-form"
+          (click)="displayRetField = false"
+          ><b>One Way</b></a
+        >
+      </li>
+      <li>
+        <a
+          data-toggle="tab"
+          href="#search-form"
+          (click)="displayRetField = true"
+          ><b>Return</b></a
+        >
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="search-form" class="tab-pane fade in active">
+        <div class="ow-form">
+          <form
+            #f="ngForm"
+            id="owForm"
+            novalidate
+            autocomplete="off"
+            (ngSubmit)="searchFlights(f.value)"
+          >
+            <!-- Origin City -->
+            <div class="form-group">
+              <label for="originCity">Origin City</label>
+              <select
+                class="form-control"
+                [(ngModel)]="flight.OriginDestination.Origin"
+                id="originCity"
+                name="originCity"
+                required
+                #originCity="ngModel"
+              >
+                <option value="" disabled selected hidden>From?</option>
+                <option value="BKK">Bangkok</option>
+                <option value="ICN">Incheon</option>
+                <option value="MNL">Manila</option>
+                <option value="NRT">Narita</option>
+              </select>
+              <div
+                *ngIf="
+                  originCity.errors && (originCity.dirty || originCity.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div [hidden]="!originCity.errors.required">
+                  Origin City is required.
+                </div>
+              </div>
+            </div>
+
+            <!-- Destination City -->
+            <div class="form-group">
+              <label for="destCity">Destination City</label>
+              <select
+                class="form-control"
+                [(ngModel)]="flight.OriginDestination.Destination"
+                id="destCity"
+                name="destCity"
+                required
+                #destCity="ngModel"
+              >
+                <input
+                  type="text"
+                  placeholder="Search.."
+                  id="myInput"
+                  onkeyup="filterFunction()"
+                />
+                <option value="" disabled selected hidden>To?</option>
+                <option value="BKK">Bangkok</option>
+                <option value="ICN">Incheon</option>
+                <option value="MNL">Manila</option>
+                <option value="NRT">Narita</option>
+              </select>
+              <div
+                *ngIf="destCity.errors && (destCity.dirty || destCity.touched)"
+                class="alert alert-danger"
+              >
+                <div [hidden]="!destCity.errors.required">
+                  Destination City is required.
+                </div>
+              </div>
+            </div>
+
+            <!-- Departure Date -->
+            <div class="form-group">
+              <label for="dprtDt">Departure Date</label>
+              <mat-form-field class="example-container">
+                <input
+                  matInput
+                  [(ngModel)]="flight.OriginDestination.DeptDate"
+                  [min]="minDate"
+                  [matDatepicker]="pickerd"
+                  id="deprtDt"
+                  name="deprtDt"
+                  required
+                  #deprtDt="ngModel"
+                  onkeydown="return false;"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="pickerd"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #pickerd></mat-datepicker>
+                <mat-error
+                  *ngIf="deprtDt.errors && (deprtDt.dirty || deprtDt.touched)"
+                >
+                  <div [hidden]="!deprtDt.errors.required">
+                    Departure date is required.
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Return Date (Displayed only if appropriate tab selected) -->
+            <div *ngIf="displayRetField" class="form-group">
+              <label for="retDt">Return Date</label>
+              <mat-form-field class="example-container">
+                <input
+                  matInput
+                  [(ngModel)]="flight.OriginDestination.ArrDate"
+                  [min]="minDate"
+                  [matDatepicker]="picker"
+                  id="retDt"
+                  name="retDt"
+                  required
+                  #retDt="ngModel"
+                  onkeydown="return false;"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error
+                  *ngIf="retDt.errors && (retDt.dirty || retDt.touched)"
+                >
+                  <div [hidden]="!retDt.errors.required">
+                    Return date is required.
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Passenger count -->
+            <div class="form-group">
+              <label for="passCount">Passenger Count</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="flight.SeatsAvailable"
+                id="passCount"
+                name="passCount"
+                placeholder="No. of passengers"
+                required
+                #passCount="ngModel"
+              />
+              <div
+                *ngIf="
+                  passCount.errors && (passCount.dirty || passCount.touched)
+                "
+                class="alert alert-danger"
+              >
+                <div [hidden]="!passCount.errors.required">
+                  Passenger count is required.
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit button -->
+            <div class="form-group">
+              <input
+                type="submit"
+                class="form-control"
+                class="btn btn-primary btn-block"
+                value="Submit"
+                [disabled]="f.invalid"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Displayed if the input parameters returned no results -->
+  <div class="result-panel col-2">
+    <div *ngIf="noResults(); else flightsAvailable" class="results">
+      <h3 style="color:#953133; text-align:center">No results to display</h3>
+    </div>
+
+    <!-- Displayed when there are results matching the input -->
+    <ng-template #flightsAvailable>
+      <!-- Conditional display of table based on length of input array -->
+      <div *ngIf="flightArr?.length > 0" class="results"></div>
+      <!-- Child component to display results -->
+      <app-flight-search-result
+        [flightResults]="flightArr"
+        [tripType]="displayRetField"
+        [lower]="someRange[0]"
+        [upper]="someRange[1]"
+      ></app-flight-search-result>
+    </ng-template>
+  </div>
+</div>
